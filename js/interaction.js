@@ -31,29 +31,55 @@ const renderer = Render.create({
 
 // create a shape
 let i = 0
-const createShape = function (x, y) {
+const createShapes = function (x, y) {
 
-    const colors = ['#4d18f8', '#ffffff', '#36e3a7', 'pink', '#f80834']
+    const colors = ['#000000', '#ffffff', '#d1d1d1']
     const nextColor = colors[i]
         i = i + 1
         if (i > colors.length - 1) {
         i = 0
     }
 
-
-
-    return Bodies.circle(x, y, 20 + 20 * Math.random(), {
+    return Bodies.circle(x, y, 36, {
         render: {
             fillStyle: nextColor
         } 
     })
 }
 
+// const bigBall = Bodies.circle(w / 2, h / 2, 250, {
+//     isStatic: true,
+//     render: {
+//         fillStyle: '#ffffff'
+//     }
+// })
 
+
+
+// add walls
+const wallOptions = {
+    isStatic: true,
+    render: {
+        visible: false
+    }
+} 
+
+const ground = Bodies.rectangle(w / 2, h + 50, w + 100, 100, wallOptions)
+const ceiling = Bodies.rectangle(w / 2, -50, w + 100, 100, wallOptions)
+const leftWall = Bodies.rectangle(-50, h / 2, 100, h + 100, wallOptions)
+const rightWall = Bodies.rectangle(w + 50, h / 2, 100, h + 100, wallOptions)
+
+World.add(engine.world, [
+    // bigBall,
+    ceiling,
+    ground,
+    leftWall,
+    rightWall
+])
 
 // click and add new shape
 document.addEventListener('click', function (event) {
-    const shape = createShape(event.pageX, event.pageY)
+    const shape = createShapes(event.pageX, event.pageY)
 
     World.add(engine.world, shape)
 
