@@ -4,7 +4,7 @@
 // renderer - this draws the engine
 
 // alias - deconstruct to make the code slightly cleaner
-const {Engine, Render, Bodies, World} = Matter
+const {Engine, Render, Bodies, World, MouseConstraint} = Matter
 
 
 // wherever the canvas is being deployed
@@ -41,6 +41,8 @@ const createShapes = function (x, y) {
     }
 
     return Bodies.circle(x, y, 36, {
+        restitution: 0.8,
+        // frictionAir: 0.1,
         render: {
             fillStyle: nextColor
         } 
@@ -69,12 +71,24 @@ const ceiling = Bodies.rectangle(w / 2, -50, w + 100, 100, wallOptions)
 const leftWall = Bodies.rectangle(-50, h / 2, 100, h + 100, wallOptions)
 const rightWall = Bodies.rectangle(w + 50, h / 2, 100, h + 100, wallOptions)
 
+const mouseControl = MouseConstraint.create(engine, {
+    element: sectionTag,
+    constraint: {
+        render: {
+            visible: false
+        }
+    }
+})
+
+
+
 World.add(engine.world, [
     // bigBall,
     ceiling,
     ground,
     leftWall,
-    rightWall
+    rightWall,
+    mouseControl,
 ])
 
 // click and add new shape
