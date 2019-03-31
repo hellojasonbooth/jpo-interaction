@@ -4,7 +4,9 @@
 // renderer - this draws the engine
 
 // alias - deconstruct to make the code slightly cleaner
-const {Engine, Render, Bodies, World, MouseConstraint, Composites} = Matter
+const {Engine, Render, Bodies, World, MouseConstraint, Composites, Query} = Matter
+
+Matter.use('matter-wrap')
 
 
 // wherever the canvas is being deployed
@@ -21,7 +23,6 @@ const renderer = Render.create({
     options: {
         height: h,
         width: w,
-        // background: '#000000',
         background: 'transparent',
         wireframes: false,
         pixelRatio: window.devicePixelRatio
@@ -33,34 +34,27 @@ const renderer = Render.create({
 let i = 0
 const createShapes = function (x, y) {
 
-    const colors = ['#000000', '#ffffff', '#d1d1d1']
-    const nextColor = colors[i]
+    const monoColors = ['#000000', '#ffffff', '#d1d3d4']
+    const nextColor = monoColors[i]
         i = i + 1
-        if (i > colors.length - 1) {
+        if (i > monoColors.length - 1) {
         i = 0
     }
 
     return Bodies.circle(x, y, 36, {
-        restitution: 0.8,
+        restitution: 0.5,
         // frictionAir: 0.1,
         render: {
             fillStyle: nextColor
-        } 
+        },
+        plugin: {
+            wrap: {
+                min: {x: 0, y: 0},
+                max: {x: w, y: h}
+            }
+        }
     })
 }
-
-
-
-
-
-
-
-// const bigBall = Bodies.circle(w / 2, h / 2, 250, {
-//     isStatic: true,
-//     render: {
-//         fillStyle: '#ffffff'
-//     }
-// })
 
 
 
@@ -87,36 +81,85 @@ const mouseControl = MouseConstraint.create(engine, {
 })
 
 
-const initialShapes = Composites.stack(50, 50, 15, 5, 40, 40, function (x, y) {
-
+const initialShapes = Composites.stack(0, 0, 5, 3, w / 4, h / 2, function (x, y) {
     return createShapes(x, y)
-
 })
 
 
 
 World.add(engine.world, [
-    // bigBall,
     ceiling,
     ground,
-    leftWall,
-    rightWall,
+    // leftWall,
+    // rightWall,
     mouseControl,
     initialShapes
 ])
 
-// click and add new shape
-// document.addEventListener('click', function (event) {
-//     const shape = createShapes(event.pageX, event.pageY)
 
-//     World.add(engine.world, shape)
+// a check to see if mouse touches a shape
+document.addEventListener('mousemove', function (event) {
+    const vector = { x: event.pageX, y:event.pageY }
+    const hoveredShapes = Query.point(initialShapes.bodies, vector)
 
-// })
+    const colors = ['#dd634a', '#6cac92', '#001c54', '#cadee8', '#ffffff', '#000000', '#d1d3d4']
+    const nextColor = colors[i]
+        i = i + 1
+        if (i > colors.length - 1) {
+        i = 0
+    }
 
+    hoveredShapes.forEach(shape => {
+        shape.render.fillStyle = nextColor
+    })
 
+})
 
 
 
 // run both the engine and the renderer
 Engine.run(engine)
 Render.run(renderer)
+
+
+
+
+// window.addEventListener('resize', function () {
+//     wTH = window.innerWidth
+//     hTH = window.innerHeight
+//     renderer.canvas.width = wTH
+//     renderer.canvas.height = hTH
+//     renderer.canvas.style.width = wTH + 'px'
+//     renderer.canvas.style.height = hTH + 'px'
+//     renderer.options.width = wTH
+//     renderer.options.height = hTH
+
+// })
+
+window.addEventListener('deviceorientation', function (event) {
+    engine.world.world.x = event.gamma / 30
+    engine.world.world.y = event.beta / 30
+})
+
+
+//engine.world.gravity.y = 0.01
+
+// gravity on a timer
+let time = 0.01
+const changeGravity = function () {
+    time = time + 0.005
+
+    // engine.world.gravity.x = Math.sin(time)
+    engine.world.gravity.y = Math.cos(time) * 0.01
+    engine.world.gravity.x = Math.sin(time) * 0.01
+
+    requestAnimationFrame(changeGravity)
+}
+
+changeGravity()
+
+
+
+
+
+
