@@ -30,7 +30,7 @@ const renderer = Render.create({
 })
 
 
-// create a shape
+// create jpo shapes
 let i = 0
 const createShapes = function (x, y) {
 
@@ -69,13 +69,13 @@ const createShapes = function (x, y) {
                     }
                 }
             })
-        }
-    
+        }  
+
 }
 
 
 
-// add walls
+// add walls to the canvas
 const wallOptions = {
     isStatic: true,
     render: {
@@ -115,7 +115,7 @@ World.add(engine.world, [
 
 
 // a check to see if mouse touches a shape
-document.addEventListener('mousemove', function (event) {
+document.addEventListener('click', function (event) {
     const vector = { x: event.pageX, y:event.pageY }
     const hoveredShapes = Query.point(initialShapes.bodies, vector)
 
@@ -139,25 +139,13 @@ Engine.run(engine)
 Render.run(renderer)
 
 
-// window.addEventListener('resize', function () {
-//     wTH = window.innerWidth
-//     hTH = window.innerHeight
-//     renderer.canvas.width = wTH
-//     renderer.canvas.height = hTH
-//     renderer.canvas.style.width = wTH + 'px'
-//     renderer.canvas.style.height = hTH + 'px'
-//     renderer.options.width = wTH
-//     renderer.options.height = hTH
-
+// window.addEventListener('deviceorientation', function (event) {
+//     engine.world.world.x = event.gamma / 30
+//     engine.world.world.y = event.beta / 30
 // })
 
-window.addEventListener('deviceorientation', function (event) {
-    engine.world.world.x = event.gamma / 30
-    engine.world.world.y = event.beta / 30
-})
 
-
-// gravity chnaged by a timer
+// gravity changed by a timer
 let time = 0.01
 const changeGravity = function () {
     time = time + 0.005
