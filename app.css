@@ -23,3 +23,11 @@ section.shapes {
     width: 100vw;
     height: 100vh;
 }
+
+@media (max-width: 700px) {
+
+    section.image-wrap {
+        padding: 40px;
+    }
+
+}

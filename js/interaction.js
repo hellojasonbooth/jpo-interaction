@@ -41,19 +41,36 @@ const createShapes = function (x, y) {
         i = 0
     }
 
-    return Bodies.circle(x, y, 36, {
-        restitution: 0.5,
-        // frictionAir: 0.1,
-        render: {
-            fillStyle: nextColor
-        },
-        plugin: {
-            wrap: {
-                min: {x: 0, y: 0},
-                max: {x: w, y: h}
+
+    if (window.innerWidth < 600) {
+        return Bodies.circle(x, y, 24, {
+            restitution: 0.5,
+            // frictionAir: 0.1,
+            render: {
+                fillStyle: nextColor
+            },
+            plugin: {
+                wrap: {
+                    min: {x: 0, y: 0},
+                    max: {x: w, y: h}
+                }
             }
+        })
+    }   else {
+            return Bodies.circle(x, y, 36, {
+                restitution: 0.6,
+                render: {
+                    fillStyle: nextColor
+                },
+                plugin: {
+                    wrap: {
+                        min: {x: 0, y: 0},
+                        max: {x: w, y: h}
+                    }
+                }
+            })
         }
-    })
+    
 }
 
 
@@ -68,8 +85,8 @@ const wallOptions = {
 
 const ground = Bodies.rectangle(w / 2, h + 50, w + 100, 100, wallOptions)
 const ceiling = Bodies.rectangle(w / 2, -50, w + 100, 100, wallOptions)
-const leftWall = Bodies.rectangle(-50, h / 2, 100, h + 100, wallOptions)
-const rightWall = Bodies.rectangle(w + 50, h / 2, 100, h + 100, wallOptions)
+// const leftWall = Bodies.rectangle(-50, h / 2, 100, h + 100, wallOptions)
+// const rightWall = Bodies.rectangle(w + 50, h / 2, 100, h + 100, wallOptions)
 
 const mouseControl = MouseConstraint.create(engine, {
     element: sectionTag,
@@ -81,7 +98,7 @@ const mouseControl = MouseConstraint.create(engine, {
 })
 
 
-const initialShapes = Composites.stack(0, 0, 5, 3, w / 4, h / 2, function (x, y) {
+const initialShapes = Composites.stack(w / 5, 0, 5, 3, w / 2, h / 3, function (x, y) {
     return createShapes(x, y)
 })
 
@@ -122,8 +139,6 @@ Engine.run(engine)
 Render.run(renderer)
 
 
-
-
 // window.addEventListener('resize', function () {
 //     wTH = window.innerWidth
 //     hTH = window.innerHeight
@@ -142,14 +157,10 @@ window.addEventListener('deviceorientation', function (event) {
 })
 
 
-//engine.world.gravity.y = 0.01
-
-// gravity on a timer
+// gravity chnaged by a timer
 let time = 0.01
 const changeGravity = function () {
     time = time + 0.005
-
-    // engine.world.gravity.x = Math.sin(time)
     engine.world.gravity.y = Math.cos(time) * 0.01
     engine.world.gravity.x = Math.sin(time) * 0.01
 
