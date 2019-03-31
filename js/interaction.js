@@ -4,7 +4,7 @@
 // renderer - this draws the engine
 
 // alias - deconstruct to make the code slightly cleaner
-const {Engine, Render, Bodies, World, MouseConstraint} = Matter
+const {Engine, Render, Bodies, World, MouseConstraint, Composites} = Matter
 
 
 // wherever the canvas is being deployed
@@ -49,6 +49,12 @@ const createShapes = function (x, y) {
     })
 }
 
+
+
+
+
+
+
 // const bigBall = Bodies.circle(w / 2, h / 2, 250, {
 //     isStatic: true,
 //     render: {
@@ -81,6 +87,13 @@ const mouseControl = MouseConstraint.create(engine, {
 })
 
 
+const initialShapes = Composites.stack(50, 50, 15, 5, 40, 40, function (x, y) {
+
+    return createShapes(x, y)
+
+})
+
+
 
 World.add(engine.world, [
     // bigBall,
@@ -89,15 +102,16 @@ World.add(engine.world, [
     leftWall,
     rightWall,
     mouseControl,
+    initialShapes
 ])
 
 // click and add new shape
-document.addEventListener('click', function (event) {
-    const shape = createShapes(event.pageX, event.pageY)
+// document.addEventListener('click', function (event) {
+//     const shape = createShapes(event.pageX, event.pageY)
 
-    World.add(engine.world, shape)
+//     World.add(engine.world, shape)
 
-})
+// })
 
 
 
