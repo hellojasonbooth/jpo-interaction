@@ -45,7 +45,7 @@ const createShapes = function (x, y) {
     if (window.innerWidth < 600) {
         return Bodies.circle(x, y, 24, {
             restitution: 0.5,
-            frictionAir: 0.1 + (Math.random() * 0.5),
+            frictionAir: 0 + (Math.random() * 0.06),
             render: {
                 fillStyle: nextColor
             },
