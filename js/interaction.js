@@ -45,7 +45,7 @@ const createShapes = function (x, y) {
     if (window.innerWidth < 600) {
         return Bodies.circle(x, y, 24, {
             restitution: 0.5,
-            // frictionAir: 0.1,
+            frictionAir: 0.1 + (Math.random() * 0.5),
             render: {
                 fillStyle: nextColor
             },
@@ -59,6 +59,7 @@ const createShapes = function (x, y) {
     }   else {
             return Bodies.circle(x, y, 36, {
                 restitution: 0.6,
+                frictionAir: 0 + (Math.random() * 0.06),
                 render: {
                     fillStyle: nextColor
                 },
@@ -148,7 +149,7 @@ Render.run(renderer)
 // gravity changed by a timer
 let time = 0.01
 const changeGravity = function () {
-    time = time + 0.005
+    time = time + 0.003
     engine.world.gravity.y = Math.cos(time) * 0.01
     engine.world.gravity.x = Math.sin(time) * 0.01
 
