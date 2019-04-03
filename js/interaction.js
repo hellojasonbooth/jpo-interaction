@@ -133,7 +133,7 @@ document.addEventListener('click', function (event) {
 
 })
 
-document.addEventListener('touchend', function (event) {
+document.addEventListener('touchstart', function (event) {
     const vector = { x: event.pageX, y:event.pageY }
     const hoveredShapes = Query.point(initialShapes.bodies, vector)
 
