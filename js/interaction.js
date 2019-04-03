@@ -133,6 +133,23 @@ document.addEventListener('click', function (event) {
 
 })
 
+document.addEventListener('touchend', function (event) {
+    const vector = { x: event.pageX, y:event.pageY }
+    const hoveredShapes = Query.point(initialShapes.bodies, vector)
+
+    const colors = ['#dd634a', '#6cac92', '#001c54', '#cadee8', '#ffffff', '#000000', '#d1d3d4']
+    const nextColor = colors[i]
+        i = i + 1
+        if (i > colors.length - 1) {
+        i = 0
+    }
+
+    hoveredShapes.forEach(shape => {
+        shape.render.fillStyle = nextColor
+    })
+
+})
+
 
 
 // run both the engine and the renderer
