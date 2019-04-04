@@ -3,9 +3,10 @@
 // engine - computation and math behind the interaction
 // renderer - this draws the engine
 
-// alias - deconstruct to make the code slightly cleaner
+// I've deconstructed this to make the code slightly cleaner
 const {Engine, Render, Bodies, World, MouseConstraint, Composites, Query} = Matter
 
+// used for a plugin to make elements wrap around the screen
 Matter.use('matter-wrap')
 
 
@@ -14,7 +15,6 @@ const sectionTag = document.querySelector('section.shapes')
 
 const w = window.innerWidth
 const h = window.innerHeight
-
 
 const engine = Engine.create()
 const renderer = Render.create({
@@ -30,7 +30,7 @@ const renderer = Render.create({
 })
 
 
-// create jpo shapes
+// create the jpo shapes
 let i = 0
 const createShapes = function (x, y) {
 
@@ -41,8 +41,8 @@ const createShapes = function (x, y) {
         i = 0
     }
 
-
     if (window.innerWidth < 600) {
+        // you can change the number for shape sizes on mobile
         return Bodies.circle(x, y, 24, {
             restitution: 0.5,
             frictionAir: 0 + (Math.random() * 0.06),
@@ -74,8 +74,6 @@ const createShapes = function (x, y) {
 
 }
 
-
-
 // add walls to the canvas
 const wallOptions = {
     isStatic: true,
@@ -98,12 +96,10 @@ const mouseControl = MouseConstraint.create(engine, {
     }
 })
 
-
+// this adds the shapes to the canvas on load
 const initialShapes = Composites.stack(w / 5, 0, 5, 3, w / 2, h / 3, function (x, y) {
     return createShapes(x, y)
 })
-
-
 
 World.add(engine.world, [
     ceiling,
@@ -113,7 +109,6 @@ World.add(engine.world, [
     mouseControl,
     initialShapes
 ])
-
 
 // a check to see if mouse clicks a shape
 document.addEventListener('click', function (event) {
@@ -152,20 +147,13 @@ document.addEventListener('touchstart', function (event) {
 
 })
 
-
-
 // run both the engine and the renderer
 Engine.run(engine)
 Render.run(renderer)
 
-
-// window.addEventListener('deviceorientation', function (event) {
-//     engine.world.world.x = event.gamma / 30
-//     engine.world.world.y = event.beta / 30
-// })
-
-
 // gravity changed by a timer
+// you can experiment with the numbers
+// to get a different effect
 let time = 0.01
 const changeGravity = function () {
     time = time + 0.003
