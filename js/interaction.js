@@ -20,6 +20,7 @@ const engine = Engine.create()
 const renderer = Render.create({
     element: sectionTag,
     engine: engine,
+    autoPreventDefault: false,
     options: {
         height: h,
         width: w,
