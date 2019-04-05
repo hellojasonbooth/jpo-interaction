@@ -28,6 +28,7 @@ const renderer = Render.create({
         wireframes: false,
         pixelRatio: window.devicePixelRatio
     }
+    
 })
 
 
@@ -88,14 +89,22 @@ const ceiling = Bodies.rectangle(w / 2, -50, w + 100, 100, wallOptions)
 // const leftWall = Bodies.rectangle(-50, h / 2, 100, h + 100, wallOptions)
 // const rightWall = Bodies.rectangle(w + 50, h / 2, 100, h + 100, wallOptions)
 
+
 const mouseControl = MouseConstraint.create(engine, {
     element: sectionTag,
     constraint: {
         render: {
             visible: false
         }
-    }
+    },
+    // sectionTag: {
+    //     mouseControl.element.removeEventListener("mousewheel", mouseControl.mousewheel)
+    //     mouseControl.element.removeEventListener("DOMMouseScroll", mouseControl.mousewheel)
+    // }
+    // mouseControl.element.removeEventListener("mousewheel", mouse.mousewheel)
+    // mouseControl.element.removeEventListener("DOMMouseScroll", mouse.mousewheel)
 })
+
 
 // this adds the shapes to the canvas on load
 const initialShapes = Composites.stack(w / 5, 0, 5, 3, w / 2, h / 3, function (x, y) {
@@ -165,9 +174,6 @@ const changeGravity = function () {
 }
 
 changeGravity()
-
-
-
 
 
 
