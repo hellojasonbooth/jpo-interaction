@@ -100,9 +100,9 @@ const mouse = Mouse.create(sectionTag, {
 
 
 const mouseControl = MouseConstraint.create(engine, {
+    mouse: mouse,
     element: sectionTag,
     constraint: {
-        mouse: mouse,
         render: {
             visible: false
         },
@@ -124,7 +124,8 @@ World.add(engine.world, [
     // leftWall,
     // rightWall,
     mouseControl,
-    initialShapes
+    initialShapes,
+    mouse
 ])
 
 // a check to see if mouse clicks a shape
