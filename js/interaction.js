@@ -4,7 +4,7 @@
 // renderer - this draws the engine
 
 // I've deconstructed this to make the code slightly cleaner
-const {Engine, Render, Bodies, World, MouseConstraint, Composites, Query} = Matter
+const {Engine, Render, Bodies, World, Mouse, MouseConstraint, Composites, Query} = Matter
 
 // used for a plugin to make elements wrap around the screen
 Matter.use('matter-wrap')
@@ -20,7 +20,7 @@ const engine = Engine.create()
 const renderer = Render.create({
     element: sectionTag,
     engine: engine,
-    autoPreventDefault: false,
+    // autoPreventDefault: false,
     options: {
         height: h,
         width: w,
@@ -90,20 +90,27 @@ const ceiling = Bodies.rectangle(w / 2, -50, w + 100, 100, wallOptions)
 // const rightWall = Bodies.rectangle(w + 50, h / 2, 100, h + 100, wallOptions)
 
 
+
+
+const mouse = Mouse.create(sectionTag, {
+    enabledEvents: {
+      mousewheel: false
+    }
+})
+
+
 const mouseControl = MouseConstraint.create(engine, {
     element: sectionTag,
     constraint: {
+        mouse: mouse,
         render: {
             visible: false
-        }
+        },
     },
-    // sectionTag: {
-    //     mouseControl.element.removeEventListener("mousewheel", mouseControl.mousewheel)
-    //     mouseControl.element.removeEventListener("DOMMouseScroll", mouseControl.mousewheel)
-    // }
-    // mouseControl.element.removeEventListener("mousewheel", mouse.mousewheel)
-    // mouseControl.element.removeEventListener("DOMMouseScroll", mouse.mousewheel)
 })
+
+// mouse.sectionTag.removeEventListener("mousewheel", mouse.mousewheel)
+// mouse.sectionTag.removeEventListener("DOMMouseScroll", mouse.mousewheel)
 
 
 // this adds the shapes to the canvas on load
