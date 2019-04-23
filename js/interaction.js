@@ -89,18 +89,7 @@ const ceiling = Bodies.rectangle(w / 2, -50, w + 100, 100, wallOptions)
 // const leftWall = Bodies.rectangle(-50, h / 2, 100, h + 100, wallOptions)
 // const rightWall = Bodies.rectangle(w + 50, h / 2, 100, h + 100, wallOptions)
 
-
-
-
-const mouse = Mouse.create(sectionTag, {
-    enabledEvents: {
-      mousewheel: false
-    }
-})
-
-
 const mouseControl = MouseConstraint.create(engine, {
-    mouse: mouse,
     element: sectionTag,
     constraint: {
         render: {
@@ -109,12 +98,13 @@ const mouseControl = MouseConstraint.create(engine, {
     },
 })
 
-// mouse.sectionTag.removeEventListener("mousewheel", mouse.mousewheel)
-// mouse.sectionTag.removeEventListener("DOMMouseScroll", mouse.mousewheel)
+var mouse = mouseControl.mouse;
+mouse.element.removeEventListener("mousewheel", mouse.mousewheel);
+mouse.element.removeEventListener("DOMMouseScroll", mouse.mousewheel);
 
 
 // this adds the shapes to the canvas on load
-const initialShapes = Composites.stack(w / 5, 0, 5, 3, w / 2, h / 3, function (x, y) {
+const initialShapes = Composites.stack(h / 2, 0, 5, 3, w / 2, h / 2, function (x, y) {
     return createShapes(x, y)
 })
 

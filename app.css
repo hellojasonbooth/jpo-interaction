@@ -1,4 +1,33 @@
+body {
+	font-family: Arial;
+	font-size: 16px;
+	line-height: 1.5;
+	
+	background-color: #ffffff;
+	color: #333333;
+}
 
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 80px;
+  z-index: 999;
+  padding: 60px;
+}
+
+@media (max-width: 500px) {
+  nav {
+    height: 100vh;
+  }
+}
+
+a {
+  color: red;
+  margin-right: 30px;
+}
 
 
 section.image-wrap {
@@ -7,29 +36,12 @@ section.image-wrap {
     padding: 60px;
 }
 
-section.image-wrap div {
-    height: 100%;
-    width: 100%;
-    background-image: url(img/hero-desktop-contour.jpg);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
 section.shapes {
     position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-}
-
-@media (max-width: 700px) {
-
-    section.image-wrap {
-        padding: 40px;
-    }
-
 }
 
 section.test {
